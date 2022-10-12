@@ -1,2 +1,0 @@
-# PropertyManager
-Premises Manager
