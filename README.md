@@ -1,2 +1,2 @@
-# PropertyManager
-Premises Manager
+# TenantManager
+Tenant Manager
