@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premises owned map view</title>
+    
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+    
+  
+</head>
+
+<body>
+    <button onclick="navigator.geolocation.getCurrentPosition(getPosition);">Current Location</button>
+    <div id="map"></div>
+    
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin="" ></script>
+      
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
+
+    <script>
+    
+        var map_init = L.map('map',{
+            center: [0.5496163356389989, 37.67061432828364],
+            zoom:8
+        });
+        var osm = L.tileLayer ('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo (map_init);
+        
+    
+        L.Control.geocoder().addTo(map_init);
+
+        
+        if (!navigator.geolocation) {
+            console.log("Your browser doesn't support geolocation feature!");
+        } //else {
+            //setInterval(() => {
+            //navigator.geolocation.getCurrentPosition(getPosition);
+            //}, 60000);
+        //}
+        
+
+        var marker, circle, lat, long, accuracy;
+
+        function getPosition(position) {
+        // console.log(position)
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
+        accuracy = position.coords.accuracy;
+
+        if (marker) {
+            map_init.removeLayer(marker);
+        }
+
+        if (circle) {
+            map_init.removeLayer(circle);
+        }
+
+        marker = L.marker([lat, long]);
+        circle = L.circle([lat, long], { radius: accuracy });
+
+        
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map_init);
+
+        map_init.fitBounds(featureGroup.getBounds());
+
+        console.log("Your coordinate is: Lat: " +lat +" Long: " +long +" Accuracy: " +accuracy);
+
+        
+        };
+    var greenIcon = L.icon({
+    iconUrl: 'C:\locator4.png',
+    });
+
+    L.marker([0.5197942479661117,35.27273297309876]).addTo(map_init)
+		.bindTooltip('Hotel')
+		.bindPopup('<b> Hotspot Name: </b>property 1 <br/> \
+					<b> Mac Addr: </b> b4:b6:76:92:b0:c6 <br/> \
+					<b> Geo Loc: </b> 0.5197942479661117,35.27273297309876 <br/> \
+                    <b> expenditur=$100,000<br/>\
+                        <b> monthly income=$1000,000<br/>\
+                            <b> paid=$500,000<br/>\
+                                <b> asset worth=5.4$million<br/>\
+					<a href=acct-hotspot-compare.php> Hotspot Comparison </a> \
+					<br/> <a href=acct-hotspot-accounting.php?hotspot=propert 1> Hotspot Statistics </a> <br/>')
+                        
+                    L.marker([-0.09969180106037306, 34.76630716390118]).addTo(map_init)
+                    .bindTooltip('Hotel')
+                    .bindPopup('<b> Hotspot Name: </b>property 2 <br/> \
+                                <b> Mac Addr: </b> b4:b6:76:92:b0:c6 <br/> \
+                                <b> Geo Loc: </b> 0.5197942479661117,35.27273297309876 <br/> \
+                                <b> expenditur=$100,000<br/>\
+                                    <b> monthly income=$1000,000<br/>\
+                                        <b> paid=$500,000<br/>\
+                                            <b> asset worth=5.4$million<br/>\
+                                <a href=acct-hotspot-compare.php> Hotspot Comparison </a> \
+                                <br/> <a href=acct-hotspot-accounting.php?hotspot=propert 1> Hotspot Statistics </a> <br/>')
+
+                                L.marker([-4.061423226288685, 39.67982384175685]).addTo(map_init)
+                                .bindTooltip('Apartments')
+                                .bindPopup('<b> Hotspot Name: </b>propert 3 <br/> \
+                                            <b> Mac Addr: </b> b4:b6:76:92:b0:c6 <br/> \
+                                            <b> Geo Loc: </b> 0.5197942479661117,35.27273297309876 <br/> \
+                                            <b> expenditur=$100,000<br/>\
+                                                <b> monthly income=$1000,000<br/>\
+                                                    <b> paid=$500,000<br/>\
+                                                        <b> asset worth=5.4$million<br/>\
+                                            <a href=acct-hotspot-compare.php> Hotspot Comparison </a> \
+                                            <br/> <a href=acct-hotspot-accounting.php?hotspot=propert 1> Hotspot Statistics </a> <br/>')
+
+                                            L.marker([-1.2491924479226018, 36.84858890979347]).addTo(map_init)
+                                            .bindTooltip('Mall')
+                                            .bindPopup('<b> Hotspot Name: </b>propert 4 <br/> \
+                                                        <b> Mac Addr: </b> b4:b6:76:92:b0:c6 <br/> \
+                                                        <b> Geo Loc: </b> 0.5197942479661117,35.27273297309876 <br/> \
+                                                        <b> expenditur=$100,000<br/>\
+                                                            <b> monthly income=$1000,000<br/>\
+                                                                <b> paid=$500,000<br/>\
+                                                                    <b> asset worth=5.4$million<br/>\
+                                                        <a href=acct-hotspot-compare.php> Hotspot Comparison </a> \
+                                                        <br/> <a href=acct-hotspot-accounting.php?hotspot=propert 1> Hotspot Statistics </a> <br/>')
+                                    
+
+	L.marker([0.5200718451690693,35.27292206883431], {icon: greenIcon}).addTo(map_init)
+		.bindTooltip('My location')
+		.bindPopup('<b> Hotspot Name: </b> cystarap2 <br/> \
+					<b> Mac Addr: </b> gf:hj:yu:hj:h <br/> \
+					<b> Geo Loc: </b> 0.5200718451690693,35.27292206883431 <br/> \
+					<a href=acct-hotspot-compare.php> Hotspot Comparison </a> \
+					<br/> <a href=acct-hotspot-accounting.php?hotspot=cystarap2> Hotspot Statistics </a> <br/>')
+                        	
+
+    
+	L.marker([0.5166896812268044,35.27468193901004]).addTo(map_init)
+		.bindTooltip('My Location')
+		.bindPopup('<b> Hotspot Name:Cystar </b> device <br/> \
+					<b> Mac Addr: </b> a4:c4:94:bc:72:d0 <br/> \
+					<b> Geo Loc: </b> 0.5166896812268044,35.27468193901004 <br/> ')
+					
+	map.fitBounds(group.getBounds());
+    
+</script>
+</body>
+</html>

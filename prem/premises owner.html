@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            border-color: aquamarine;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            padding: 12px 15px;
+
+        }
+
+        th {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Information relevant to the user</h1>
+    <p id="demo"></p>
+
+    <table border="">
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td id="username"></td>
+            <!-- QSobject.session.userName -->
+        </tr>
+        <tr>
+            <td>ClientState</td>
+            <td id="clientstate"></td>
+            <!-- QSobject.clientState -->
+        </tr>
+        <tr>
+            <td>StartTime</td>
+            <td id="startime"></td>
+            <!--QSobject.session.startTime-->
+        </tr>
+        <tr>
+            <td>SessionTimeout</td>
+            <td id="sessiontimeout"></td>
+            <!--QSobject.session.sessionTimeout-->
+        </tr>
+        <tr>
+            <td>Terminatetime</td>
+            <td id="terminatetime"></td>
+            <!--QSobject.session.terminateTime-->
+        </tr>
+        <tr>
+            <td>Inputoctets</td>
+            <td id="inputoctets"></td>
+            <!--QSobject.accounting.inputOctets -->
+        </tr>
+        <tr>
+            <td>Outputoctets</td>
+            <td id="outputoctets"></td>
+            <!--QSobject.accounting.outputOctets-->
+        </tr>
+    </table>
+
+    <p id="time"></p>
+    <br>
+    <p id="countdown"></p>
+
+    <script>
+        //function to convert bytes to mbs and/or gb
+        // bytes to mbs and gb  1 GB = 1024mb = 1073741824 bytes
+        // 1mb = 1048576 bytes
+
+        function convertBytes(byte_value) {
+            if (byte_value < 1073741824) {
+                return (byte_value / 1048576).toFixed(2) + 'mbs'; //convert to bytes if its less than 1GB
+            }
+            else {
+                return (byte_value / 1073741824).toFixed(2) + 'GB'; //convert to GB
+            }
+        }
+
+
+        var querystring =
+            '{"version":"1.0","clientState":1,"nasid":"nas01","redir":{"originalURL":"http://www.gstatic.com/generate_204","redirectionURL":"","logoutURL":"http://10.1.0.1:3990/logoff","ipAddress":"10.1.0.3","macAddress":"2C-D0-5A-A1-5A-07"},"session":{"sessionId":"165589742500000002","userName":"admin","startTime":1655897827,"sessionTimeout":0,"terminateTime":0,"idleTimeout":0},"accounting":{"sessionTime":949,"idleTime":0,"inputOctets":1304850,"outputOctets":493405,"inputGigawords":0,"outputGigawords":0,"viewPoint":"client"}}'
+        // document.write(querystring);
+        var QSobject = JSON.parse(querystring);//converting JSON to object
+        //document.write(QSobject.clientState);
+
+        //display the relevant information to the user using the getElementById().innerHTML =
+        document.getElementById("username").innerHTML = QSobject.session.userName;
+        document.getElementById("clientstate").innerHTML = QSobject.clientState;
+        document.getElementById("startime").innerHTML = QSobject.session.startTime;
+        document.getElementById("sessiontimeout").innerHTML = -QSobject.session.sessionTimeout;
+        document.getElementById("terminatetime").innerHTML = QSobject.session.terminateTime;
+        document.getElementById("inputoctets").innerHTML = convertBytes(QSobject.accounting.inputOctets);
+        document.getElementById("outputoctets").innerHTML = convertBytes(QSobject.accounting.outputOctets);
+
+        //new date function
+        var today = new Date();
+        document.getElementById("time").innerHTML = today;
+
+        // implementing a countdown
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jun 24, 2022 10:00:00").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+        //async method/function
+
+        // async function getUserAsync(name) {
+        //     let response = await fetch(`https://10.1.0.1:4990/json/${name}`);
+        //     alert(response);
+        //     let data = await response.json()
+
+        //     return data;
+        // }
+
+        // getUserAsync('status')
+        //     .then(data => alert(data));
+
+    </script>   
+
+</body>
+
+<!--
+    light bulb code
+    <button onclick="document.getElementById('myImage').src='pic_bulbon.gif'">Turn on the light</button>
+<img id="myImage" src="pic_bulboff.gif" style="width:100px">
+<button onclick="document.getElementById('myImage').src='pic_bulboff.gif'">Turn off the light</button>
+-->
+
+</html>
+
+
+
+
