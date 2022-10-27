@@ -200,10 +200,4 @@
     user-select: none;
   }
   
-  .caret::before {
-    content: "\25B6";
-    color: blue;
-    display: inline-block;
-    margin-right: 6px;
-  }
   
